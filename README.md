@@ -10,7 +10,7 @@ This simple script will upload your .ipa or .apk file to your TestFlight account
 How to use: 
 -----------
 
-1. Assuming you have Jenkins installed on your server ()
+1. Assuming you have Jenkins installed on your server (_brew install jenkins_)
 2. Install [Groovy Plugin for Jenkins](https://wiki.jenkins-ci.org/display/JENKINS/Groovy+plugin)  
 3. Add an "Execute Groovy Script" build step to the end of your build job
 4. Select "Groovy Command" option and copy/paste this script into the edit box.
