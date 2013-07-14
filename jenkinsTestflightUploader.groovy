@@ -42,7 +42,7 @@ testFlightNotes = changeLog
 
 def getBuildFile(fileOrDir){
         def filePattern = ~/.*\.(ipa|apk)$/
-        def found = ""
+        def found = null
         if(fileOrDir.isDirectory()){
             fileOrDir.eachFileRecurse{
                 if(!it.isDirectory() && it.getName() =~ filePattern)
@@ -57,17 +57,24 @@ def getBuildFile(fileOrDir){
 }
 
 def buildFile = getBuildFile(new File(build.getWorkspace().getRemote()))
-     
+
+if(buildFile == null){
+    println("ERROR: could not find .ipa or .apk file in " + build.getWorkspace().getRemote())
+}   
+  
+// curl the build + metadata to TestFlight Upload API
+
 def proc = """\
     curl http://testflightapp.com/api/builds.json \
-    -F file=@${buildFile} \
+    -F file="@${buildFile}" \
     -F api_token=${apiToken} \
     -F team_token=${teamToken} \
-    -F notes=<${testFlightNotes} \
+    -F notes="<${testFlightNotes}" \
     -F notify=True \
     -F distribution_lists=${testFlightDistList}
 """
 
+println(proc)
 println(proc.execute().text)
 
 return 0
