@@ -74,7 +74,16 @@ def proc = """\
     -F distribution_lists=${testFlightDistList}
 """
 
+// log the request 
 println(proc)
-println(proc.execute().text)
+
+def response = proc.execute().text
+if(response == null || response == ""){
+   println("ERROR uploading to TestFlight")
+   return 1
+}
+
+// log the response
+println(response)
 
 return 0
